@@ -14,5 +14,9 @@ public:
 	PhysObject();
 
 	void TickPhys(float delta);
+
+	void AddAccel(glm::vec2 accel);
+	void AddVelocity(glm::vec2 vel);
 	void AddForce(glm::vec2 force);
+	void AddImpulse(glm::vec2 impulse);
 };

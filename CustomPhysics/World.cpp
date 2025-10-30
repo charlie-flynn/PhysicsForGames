@@ -17,6 +17,10 @@ void World::Init()
 
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
 
+    
+    
+    PhysObjects.push_back(std::make_shared<PhysObject>());
+    
     OnInit();
 }
 
@@ -24,7 +28,10 @@ void World::Tick()
 {
     AccumulatedFixedTime += GetFrameTime();
 
-
+    for (auto physObject : PhysObjects)
+    {
+        DrawCircle(physObject->position.x, physObject->position.y, 10, {255, 0, 0, 255});
+    }
 
     OnTick();
 }
@@ -35,6 +42,9 @@ void World::TickFixed()
 
     for (auto physObject : PhysObjects)
     {
+        if (physObject->isAffectedByGravity)
+            physObject->AddAccel({0, 5.25f});
+        
         physObject->TickPhys(TargetFixedStep);
     }
 
