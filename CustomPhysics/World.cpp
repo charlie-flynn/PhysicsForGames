@@ -1,9 +1,11 @@
 #include "World.h"
 
+#include "PhysObject.h"
 #include "raylib.h"
 
 World::World() : AccumulatedFixedTime(0), TargetFixedStep(1.0f / 30.0f)
 {
+    PhysObjects = std::vector<std::shared_ptr<class PhysObject>>();
 }
 
 void World::Init()
@@ -30,6 +32,11 @@ void World::Tick()
 void World::TickFixed()
 {
     AccumulatedFixedTime -= TargetFixedStep;
+
+    for (auto physObject : PhysObjects)
+    {
+        physObject->TickPhys(TargetFixedStep);
+    }
 
     // @todo do physics here
 

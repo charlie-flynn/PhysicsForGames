@@ -1,10 +1,15 @@
 #pragma once
+#include <memory>
+#include <vector>
 
 class World
 {
 protected:
 	// Elapsed time between last fixed tick
 	float AccumulatedFixedTime;
+	
+	std::vector<std::shared_ptr<class PhysObject>> PhysObjects;
+	
 public:
 	// time between fixed tick
 	float TargetFixedStep;
