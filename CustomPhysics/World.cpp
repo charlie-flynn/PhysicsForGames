@@ -43,7 +43,7 @@ void World::TickFixed()
     for (auto physObject : PhysObjects)
     {
         if (physObject->isAffectedByGravity)
-            physObject->AddAccel({0, 5.25f});
+            physObject->AddAccel({0, 9.81f});
         
         physObject->TickPhys(TargetFixedStep);
     }

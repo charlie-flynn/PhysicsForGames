@@ -9,6 +9,7 @@ public:
 	glm::vec2 velocity;
 	glm::vec2 acceleration;
 	float mass;
+	float drag;
 	bool isAffectedByGravity;
 
 	PhysObject();
