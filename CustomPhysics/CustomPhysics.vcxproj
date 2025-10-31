@@ -136,6 +136,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PhysObject.h" />
+    <ClInclude Include="Shape.h" />
     <ClInclude Include="World.h" />
   </ItemGroup>
   <ItemGroup>

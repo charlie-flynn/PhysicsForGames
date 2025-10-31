@@ -28,9 +28,9 @@ void World::Tick()
 {
     AccumulatedFixedTime += GetFrameTime();
 
-    for (auto physObject : PhysObjects)
+    if (IsMouseButtonPressed(MouseButton::MOUSE_BUTTON_LEFT))
     {
-        DrawCircle(physObject->position.x, physObject->position.y, 10, {255, 0, 0, 255});
+        PhysObjects.push_back(std::make_shared<PhysObject>(GetMouseX(), GetMouseY()));
     }
 
     OnTick();
@@ -47,9 +47,6 @@ void World::TickFixed()
         
         physObject->TickPhys(TargetFixedStep);
     }
-
-    // @todo do physics here
-
     OnTickFixed();
 }
 
@@ -61,6 +58,11 @@ void World::Draw()
 
     DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
 
+for (auto physObject : PhysObjects)
+{
+    physObject->Draw();
+}
+    
     OnDraw();
 
     EndDrawing();

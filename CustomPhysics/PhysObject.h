@@ -1,6 +1,7 @@
 #pragma once
 
 #include <glm/vec2.hpp>
+#include "Shape.h"
 
 class PhysObject
 {
@@ -11,10 +12,13 @@ public:
 	float mass;
 	float drag;
 	bool isAffectedByGravity;
+	Shape collisionShape;
 
 	PhysObject();
+	PhysObject(float x, float y);
 
 	void TickPhys(float delta);
+	void Draw() const;
 
 	void AddAccel(glm::vec2 accel);
 	void AddVelocity(glm::vec2 vel);
