@@ -1,8 +1,10 @@
 ﻿#pragma once
 
 #include <cstdint>
+#include <unordered_map>
 
 #include "glm/vec2.hpp"
+
 
 struct Circle
 {
@@ -32,8 +34,12 @@ struct Shape
     };
 };
 
+using CollisionFunction = bool(*)(const glm::vec2&, const Shape&, const glm::vec2&, const Shape&);
+using CollisionMap = std::unordered_map<ShapeType, CollisionFunction>;
+
+
 bool CheckCircleCircleCollision(const glm::vec2& positionA, const Shape& shapeA, const glm::vec2& positionB, const Shape& shapeB);
-bool CheckCircleCircleCollision(const glm::vec2& positionA, const Circle& circleA, const glm::vec2& positionB, const Circle circleB);
+bool CheckCircleCircleCollision(const glm::vec2& positionA, const Circle& circleA, const glm::vec2& positionB, const Circle& circleB);
 
 bool CheckAABBAABBCollision(const glm::vec2& positionA, const Shape& shapeA, const glm::vec2& positionB, const Shape& shapeB);
 bool CheckAABBAABBCollision(const glm::vec2& positionA, const AABB& boxA, const glm::vec2& positionB, const AABB& boxB);
@@ -49,8 +55,9 @@ inline bool CheckCircleCircleCollision(const glm::vec2& positionA, const Shape& 
 }
 
 inline bool CheckCircleCircleCollision(const glm::vec2& positionA, const Circle& circleA, const glm::vec2& positionB,
-    const Circle circleB)
+    const Circle& circleB)
 {
+    return false;
 }
 
 inline bool CheckAABBAABBCollision(const glm::vec2& positionA, const Shape& shapeA, const glm::vec2& positionB,
@@ -62,6 +69,7 @@ inline bool CheckAABBAABBCollision(const glm::vec2& positionA, const Shape& shap
 inline bool CheckAABBAABBCollision(const glm::vec2& positionA, const AABB& boxA, const glm::vec2& positionB,
     const AABB& boxB)
 {
+    return false;
 }
 
 inline bool CheckCircleAABBCollision(const glm::vec2& positionA, const Shape& shapeA, const glm::vec2& positionB,
@@ -73,5 +81,6 @@ inline bool CheckCircleAABBCollision(const glm::vec2& positionA, const Shape& sh
 inline bool CheckCircleAABBCollision(const glm::vec2& positionA, const Circle& shapeA, const glm::vec2& positionB,
     const AABB& boxB)
 {
+    return false;
 }
 #pragma endregion

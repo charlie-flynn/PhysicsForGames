@@ -2,10 +2,13 @@
 
 #include "PhysObject.h"
 #include "raylib.h"
+#include "Util.h"
 
 World::World() : AccumulatedFixedTime(0), TargetFixedStep(1.0f / 30.0f)
 {
     PhysObjects = std::vector<std::shared_ptr<class PhysObject>>();
+
+    collisionMap = CollisionMap();
 }
 
 void World::Init()
@@ -17,7 +20,9 @@ void World::Init()
 
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
 
-    
+    collisionMap[ShapeType::CIRCLE | ShapeType::CIRCLE] = CheckCircleCircleCollision;
+    collisionMap[ShapeType::AABB | ShapeType::AABB] = CheckAABBAABBCollision;
+    collisionMap[ShapeType::CIRCLE | ShapeType::AABB] = CheckCircleAABBCollision;
     
     PhysObjects.push_back(std::make_shared<PhysObject>());
     
@@ -39,6 +44,14 @@ void World::Tick()
 void World::TickFixed()
 {
     AccumulatedFixedTime -= TargetFixedStep;
+
+    for (auto &physActorA : PhysObjects)
+    {
+        for (auto &physActorB : PhysObjects)
+        {
+            
+        }
+    }
 
     for (auto physObject : PhysObjects)
     {

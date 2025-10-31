@@ -2,6 +2,8 @@
 #include <memory>
 #include <vector>
 
+#include "Shape.h"
+
 class World
 {
 protected:
@@ -9,6 +11,7 @@ protected:
 	float AccumulatedFixedTime;
 	
 	std::vector<std::shared_ptr<class PhysObject>> PhysObjects;
+	CollisionMap collisionMap;
 	
 public:
 	// time between fixed tick
