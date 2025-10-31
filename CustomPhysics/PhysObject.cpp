@@ -29,6 +29,7 @@ void PhysObject::Draw() const
         DrawCircle(position.x, position.y, collisionShape.CircleData.radius, RED);
         break;
     case ShapeType::AABB:
+        DrawRectangle(position.x, position.y, collisionShape.AABBData.halfBounds.x * 2, collisionShape.AABBData.halfBounds.y * 2, RED);
         // @todo this
         break;
     }

@@ -1,5 +1,8 @@
 #include "World.h"
 
+#include <iostream>
+#include <ostream>
+
 #include "PhysObject.h"
 #include "raylib.h"
 #include "Util.h"
@@ -35,7 +38,10 @@ void World::Tick()
 
     if (IsMouseButtonPressed(MouseButton::MOUSE_BUTTON_LEFT))
     {
-        PhysObjects.push_back(std::make_shared<PhysObject>(GetMouseX(), GetMouseY()));
+        auto object = std::make_shared<PhysObject>(GetMouseX(), GetMouseY());
+        object->collisionShape.Type = ShapeType::AABB;
+        object->collisionShape.AABBData.halfBounds = {5.0f, 5.0f};
+        PhysObjects.push_back(object);
     }
 
     OnTick();
@@ -47,9 +53,22 @@ void World::TickFixed()
 
     for (auto &physActorA : PhysObjects)
     {
+        if (physActorA->collisionShape.Type == ShapeType::NONE)
+            continue;
+        
         for (auto &physActorB : PhysObjects)
         {
-            
+            if (physActorA == physActorB || physActorB->collisionShape.Type == ShapeType::NONE)
+                continue;
+
+            // checks if the second physactor's type's value is higher than the first, and reorders them accordingly for the collision check
+            if (physActorB->collisionShape.Type > physActorA->collisionShape.Type
+                ? collisionMap[physActorA->collisionShape.Type | physActorB->collisionShape.Type](physActorA->position, physActorA->collisionShape, physActorB->position, physActorB->collisionShape)
+                : collisionMap[physActorA->collisionShape.Type | physActorB->collisionShape.Type](physActorB->position, physActorB->collisionShape, physActorA->position, physActorA->collisionShape))
+            {
+                std::cout << "Collision!" << std::endl;
+            }
+                
         }
     }
 

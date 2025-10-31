@@ -57,7 +57,9 @@ inline bool CheckCircleCircleCollision(const glm::vec2& positionA, const Shape& 
 inline bool CheckCircleCircleCollision(const glm::vec2& positionA, const Circle& circleA, const glm::vec2& positionB,
     const Circle& circleB)
 {
-    return false;
+    glm::vec2 distanceVector = {positionA.x - positionB.x, positionA.y - positionB.y};
+    float distance = sqrt((distanceVector.x * distanceVector.x) + (distanceVector.y * distanceVector.y));
+    return distance <= circleA.radius + circleB.radius;
 }
 
 inline bool CheckAABBAABBCollision(const glm::vec2& positionA, const Shape& shapeA, const glm::vec2& positionB,
@@ -69,7 +71,10 @@ inline bool CheckAABBAABBCollision(const glm::vec2& positionA, const Shape& shap
 inline bool CheckAABBAABBCollision(const glm::vec2& positionA, const AABB& boxA, const glm::vec2& positionB,
     const AABB& boxB)
 {
-    return false;
+    return positionA.x + boxA.halfBounds.x > positionB.x - boxB.halfBounds.x
+    && positionA.y + boxA.halfBounds.y > positionB.y - boxB.halfBounds.y
+    && positionA.x - boxA.halfBounds.x < positionB.x + boxB.halfBounds.x
+    && positionA.y - boxB.halfBounds.y < positionB.y + boxB.halfBounds.y;
 }
 
 inline bool CheckCircleAABBCollision(const glm::vec2& positionA, const Shape& shapeA, const glm::vec2& positionB,
@@ -81,6 +86,14 @@ inline bool CheckCircleAABBCollision(const glm::vec2& positionA, const Shape& sh
 inline bool CheckCircleAABBCollision(const glm::vec2& positionA, const Circle& shapeA, const glm::vec2& positionB,
     const AABB& boxB)
 {
+    // there's an evil beast inside me that wants me to use ten ternary operators for this
+    // actually this isnt that badi  think it makes sense when you know what a ternary operator is
+    glm::vec2 boxSide = glm::vec2(
+        positionA.x < positionB.x ? positionB.x - boxB.halfBounds.x : positionB.x + boxB.halfBounds.x,
+        positionA.y < positionB.y ? positionB.y - boxB.halfBounds.y : positionB.y + boxB.halfBounds.y);
+
+    
+    
     return false;
 }
 #pragma endregion
